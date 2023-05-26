@@ -7,10 +7,16 @@ import javafx.scene.paint.Color;
  * Clase abstracta que representa un cuerpo de dos dimensiones en un entorno 2D.
  */
 public abstract class Body {
+
     protected Vector2D position;
     protected Vector2D velocity;
+    protected  Vector2D acceleration;
     protected double mass;
     protected Color color;
+
+    private boolean isMovable;
+    private GraphicsContext gc = null;
+
 
     /**
      * Constructor de la clase Body.
@@ -20,12 +26,15 @@ public abstract class Body {
      * @param mass     La masa del cuerpo.
      * @param color    El color del cuerpo.
      */
-    public Body(Vector2D position, Vector2D velocity, double mass, Color color) {
+    public Body(Vector2D position, Vector2D velocity, double mass, Color color, boolean isMovable) {
         this.position = position;
         this.velocity = velocity;
         this.mass = mass;
         this.color = color;
+        this.isMovable=isMovable;
     }
+
+
 
     /**
      * Dibuja el cuerpo en el contexto gráfico dado, utilizando el factor de escala y las coordenadas de la ventana.
@@ -35,7 +44,7 @@ public abstract class Body {
      * @param xMin  La coordenada x mínima de la ventana visible.
      * @param yMax  La coordenada y máxima de la ventana visible.
      */
-    public abstract void draw(GraphicsContext gc, double scale, double xMin, double yMax);
+//    public abstract void draw(GraphicsContext gc, double scale, double xMin, double yMax);
 
     /**
      * Actualiza el estado del cuerpo en función del delta de tiempo dado.
@@ -44,9 +53,21 @@ public abstract class Body {
      */
     public void update(double deltaT) {
         Vector2D acceleration = calculateAcceleration();
-        velocity = velocity.add(acceleration.multiply(deltaT));
-        position = position.add(velocity.multiply(deltaT));
+        Vector2D gravity = new Vector2D(0, 0); // Assuming gravity is directed downward with a magnitude of 9.8 m/s^2
+        Vector2D gravitationalForce = gravity.multiply(mass);
+        acceleration = gravitationalForce.divide(mass);
+        Vector2D deltaVelocity = acceleration.multiply(deltaT);
+        velocity = velocity.add(deltaVelocity);
+
+        // Update position
+        Vector2D deltaPosition = velocity.multiply(deltaT);
+        position = position.add(deltaPosition);
+
     }
+    public void calcForces(){
+
+    }
+
 
     /**
      * Calcula la aceleración del cuerpo en función de su estado actual.
@@ -65,6 +86,8 @@ public abstract class Body {
     public Vector2D getPosition() {
         return position;
     }
+
+
 
     /**
      * Establece la posición del cuerpo.

@@ -68,4 +68,12 @@ public class Vector2D {
     public void setY(double y) {
         this.y = y;
     }
+
+    public Vector2D divide(double scalar) {
+        double reciprocal = 1.0 / scalar;
+        return new Vector2D(x * reciprocal, y * reciprocal);
+    }
+
+
+
 }

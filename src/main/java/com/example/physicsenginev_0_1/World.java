@@ -23,7 +23,7 @@ public class World {
     private final double yMax = 8.0; // meters
     private final double scale = 50.0; // pixel/meter
 
-    public static final double g = 9.81;
+    public static final double g = 0;
 
     private static World world = null;
 
@@ -93,7 +93,6 @@ public class World {
                 Rectangle rectangle = (Rectangle) body;
                 drawRectangle(rectangle.getPosition().getX(), rectangle.getPosition().getY(), rectangle.getWidth(), rectangle.getHeight(), rectangle.getColor());
             }
-            // Add more conditions for other types of bodies if needed
         }
     }
 }

@@ -5,9 +5,10 @@ import javafx.scene.paint.Color;
 
 public class Circle extends Body {
     private double radius;
+    private boolean isMovable;
 
-    public Circle(Vector2D position, Vector2D velocity, double mass, Color color, double radius) {
-        super(position, velocity, mass, color);
+    public Circle(Vector2D position, Vector2D velocity, double mass, Color color, boolean isMovable, double radius) {
+        super(position, velocity, mass, color,isMovable );
         this.radius = radius;
     }
 
@@ -19,13 +20,13 @@ public class Circle extends Body {
         this.radius = radius;
     }
 
-    @Override
     public void draw(GraphicsContext gc, double scale, double xMin, double yMax) {
 
     }
 
     @Override
     protected Vector2D calculateAcceleration() {
+
         return null;
     }
 

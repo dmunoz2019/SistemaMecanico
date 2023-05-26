@@ -13,19 +13,35 @@ public class HelloApplication extends Application {
 
     private AnimationTimer timer;
     private Timeline timeline;
+    private Body circle;
+    private Body rectangle;
 
     @Override
     public void start(Stage stage) {
         stage.setTitle("Tarea de guía 14!");
 
-        Canvas canvas = new Canvas(800, 600);
+        Canvas canvas = new Canvas(1000, 600);
         World.getInstance().setGraphicsContext(canvas.getGraphicsContext2D());
         World.getInstance().create();
 
-        Rectangle rectangle = new Rectangle(new Vector2D(1, 0), new Vector2D(1, 0), 2.5, Color.GREEN, 0.6, 0.4);
-        Circle circle =new Circle(new Vector2D(2,2), new Vector2D(0,0), 500.0,Color.BROWN,0.8);
-        World.getInstance().addBody(rectangle);
+        // Create the object with initial position, velocity, and other attributes
+        Vector2D initialPosition = new Vector2D(0, 0);
+        Vector2D initialVelocity = new Vector2D(0, 0);
+
+        double mass = 0.5;
+
+        Color color = Color.RED;
+
+        double radius = 0.20;
+
+        circle = new Circle(initialPosition, initialVelocity, mass, color, true,radius);
+
+        rectangle = new Rectangle(new Vector2D(0, 0), new Vector2D(0, 0), 8.5, Color.RED, true ,0.5,0.45);
+     
+
         World.getInstance().addBody(circle);
+        World.getInstance().addBody(rectangle);
+
 
         Group root = new Group();
         root.getChildren().add(canvas);
@@ -50,8 +66,11 @@ public class HelloApplication extends Application {
                 double dt = (now - last) * 1e-9;
                 double t = (now - start) * 1e-9;
                 last = now;
+                // Update the position of the object within the simulation loop
+                circle.update(dt);
+                rectangle.update(dt);
 
-                canvas.getGraphicsContext2D().setFill(Color.DARKBLUE);
+                canvas.getGraphicsContext2D().setFill(Color.BLACK);
                 canvas.getGraphicsContext2D().fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
                 double currentFrameRate = 1.0 / dt;
