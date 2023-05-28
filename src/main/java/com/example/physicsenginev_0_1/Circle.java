@@ -5,10 +5,9 @@ import javafx.scene.paint.Color;
 
 public class Circle extends Body {
     private double radius;
-    private boolean isMovable;
 
     public Circle(Vector2D position, Vector2D velocity, double mass, Color color, boolean isMovable, double radius) {
-        super(position, velocity, mass, color,isMovable );
+        super(position, velocity, mass, color, isMovable);
         this.radius = radius;
     }
 
@@ -20,22 +19,20 @@ public class Circle extends Body {
         this.radius = radius;
     }
 
+    @Override
     public void draw(GraphicsContext gc, double scale, double xMin, double yMax) {
-
+        double xPixel = toPixelX(position.getX(), scale, xMin);
+        double yPixel = toPixelY(position.getY(), scale, yMax);
+        double rPixel = scale * radius;
+        gc.setFill(color);
+        gc.fillOval(xPixel - rPixel, yPixel - rPixel, rPixel * 2, rPixel * 2);
     }
 
     @Override
     protected Vector2D calculateAcceleration() {
-
-        return null;
+        Vector2D gravity = new Vector2D(0, 9.8); // Gravitational acceleration (assuming downward direction)
+        return gravity;
     }
 
-    @Override
-    public void updatePosition(double deltaT) {
-        // Calculate the displacement based on the current velocity and time step
-        Vector2D displacement = velocity.multiply(deltaT);
 
-        // Update the position by adding the displacement
-        position = position.add(displacement);
-    }
 }

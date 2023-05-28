@@ -46,9 +46,35 @@ public class Vector2D {
     }
 
     public Vector2D rotate(double angle) {
-        double newX = x * Math.cos(angle) - y * Math.sin(angle);
-        double newY = x * Math.sin(angle) + y * Math.cos(angle);
+        double cosAngle = Math.cos(angle);
+        double sinAngle = Math.sin(angle);
+        double newX = x * cosAngle - y * sinAngle;
+        double newY = x * sinAngle + y * cosAngle;
         return new Vector2D(newX, newY);
+    }
+
+    public Vector2D divide(double scalar) {
+        if (scalar != 0) {
+            double reciprocal = 1.0 / scalar;
+            return new Vector2D(x * reciprocal, y * reciprocal);
+        }
+        return new Vector2D(0, 0);
+    }
+
+    // Additional methods for convenience
+
+    public Vector2D negate() {
+        return new Vector2D(-x, -y);
+    }
+
+    public Vector2D setMagnitude(double magnitude) {
+        return normalize().multiply(magnitude);
+    }
+
+    public double distance(Vector2D other) {
+        double dx = this.x - other.x;
+        double dy = this.y - other.y;
+        return Math.sqrt(dx * dx + dy * dy);
     }
 
     // Getters and setters
@@ -68,12 +94,4 @@ public class Vector2D {
     public void setY(double y) {
         this.y = y;
     }
-
-    public Vector2D divide(double scalar) {
-        double reciprocal = 1.0 / scalar;
-        return new Vector2D(x * reciprocal, y * reciprocal);
-    }
-
-
-
 }

@@ -71,7 +71,7 @@ public class World {
     // Simulate a time period, advancing time by deltaT
     public void run(double t, double deltaT) {
         for (Body body : bodies) {
-            body.updatePosition(deltaT);
+            body.update(deltaT);
         }
     }
     private void drawRectangle(double x, double y, double width, double height, Color color) {
