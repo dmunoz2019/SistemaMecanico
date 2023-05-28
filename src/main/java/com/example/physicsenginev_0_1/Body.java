@@ -23,16 +23,17 @@ public abstract class Body {
     public abstract void draw(GraphicsContext gc, double scale, double xMin, double yMax);
 
     public void update(double deltaT) {
-        Vector2D acceleration = calculateAcceleration();
-        Vector2D gravity = new Vector2D(0, -World.g); // Assuming gravity is directed downward with a magnitude of 9.8 m/s^2
-        Vector2D gravitationalForce = gravity.multiply(mass);
-        acceleration = gravitationalForce.divide(mass);
-        Vector2D deltaVelocity = acceleration.multiply(deltaT);
-        velocity = velocity.add(deltaVelocity);
+        if (isMovable) {
+            Vector2D acceleration = calculateAcceleration();
+            Vector2D gravity = new Vector2D(0, -World.g); // Gravitational acceleration (assuming downward direction)
+            acceleration = acceleration.add(gravity);
 
-        // Update position
-        Vector2D deltaPosition = velocity.multiply(deltaT);
-        position = position.add(deltaPosition);
+            Vector2D deltaVelocity = acceleration.multiply(deltaT);
+            velocity = velocity.add(deltaVelocity);
+
+            Vector2D deltaPosition = velocity.multiply(deltaT);
+            position = position.add(deltaPosition);
+        }
     }
 
     protected abstract Vector2D calculateAcceleration();

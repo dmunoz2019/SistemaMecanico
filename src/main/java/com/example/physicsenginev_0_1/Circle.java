@@ -19,18 +19,18 @@ public class Circle extends Body {
         this.radius = radius;
     }
 
-    @Override
-    public void draw(GraphicsContext gc, double scale, double xMin, double yMax) {
-        double xPixel = toPixelX(position.getX(), scale, xMin);
-        double yPixel = toPixelY(position.getY(), scale, yMax);
-        double rPixel = scale * radius;
-        gc.setFill(color);
-        gc.fillOval(xPixel - rPixel, yPixel - rPixel, rPixel * 2, rPixel * 2);
-    }
+        @Override
+        public void draw(GraphicsContext gc, double scale, double xMin, double yMax) {
+            double xPixel = toPixelX(position.getX(), scale, xMin);
+            double yPixel = toPixelY(position.getY(), scale, yMax);
+            double rPixel = scale * radius;
+            gc.setFill(color);
+            gc.fillOval(xPixel - rPixel, yPixel - rPixel, rPixel * 2, rPixel * 2);
+        }
 
     @Override
     protected Vector2D calculateAcceleration() {
-        Vector2D gravity = new Vector2D(0, 9.8); // Gravitational acceleration (assuming downward direction)
+        Vector2D gravity = new Vector2D(0, -World.g); // Gravitational acceleration (assuming downward direction)
         return gravity;
     }
 

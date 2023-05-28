@@ -25,7 +25,8 @@ public class Rectangle extends Body {
 
     @Override
     protected Vector2D calculateAcceleration() {
-        return new Vector2D(0, 0);
+        Vector2D gravity = new Vector2D(0, -World.g); // Gravitational acceleration (assuming downward direction)
+        return gravity;
     }
 
     public double getWidth() {

@@ -23,7 +23,7 @@ public class World {
     private final double yMax = 8.0; // meters
     private final double scale = 50.0; // pixel/meter
 
-    public static final double g = 0;
+    public static final double g = 9.8;
 
     private static World world = null;
 
