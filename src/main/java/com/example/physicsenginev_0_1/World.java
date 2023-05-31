@@ -7,16 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class World {
-    private List<Body> bodies;
-
-    public World() {
-        bodies = new ArrayList<>();
-    }
-
-    public void addBody(Body body) {
-        bodies.add(body);
-    }
-
     // Define the visible region in the window, defined by the coordinates of the
     // top-left corner (xMin/yMax) and a scale factor
     private final double xMin = -5.0; // meters
@@ -24,6 +14,38 @@ public class World {
     private final double scale = 50.0; // pixel/meter
 
     public static final double g = 9.8;
+    private List<Body> bodies;
+    private double airDensity =11.5;
+    public static double temperature = 900; // Temperatura del aire en grados Celsius
+    public static double airViscosity =(1.458e-6) * Math.pow((temperature + 273.15), 1.5) / (temperature + 110.4);
+    public World() {
+        bodies = new ArrayList<>();
+    }
+
+    public void setTemperature(double temperature) {
+        this.temperature = temperature;
+    }
+//    private void calculateAirViscosity() {
+//        double airViscosity = (1.458e-6) * Math.pow((temperature + 273.15), 1.5) / (temperature + 110.4);
+//        this.airViscosity= airViscosity;
+//    }
+    public static double getAirViscosity() {
+        return airViscosity;
+    }
+    public void setAirDensity(double airDensity) {
+        this.airDensity = airDensity;
+    }
+
+    public double getAirDensity() {
+        return airDensity;
+    }
+
+
+    public void addBody(Body body) {
+        bodies.add(body);
+    }
+
+
 
     private static World world = null;
 
