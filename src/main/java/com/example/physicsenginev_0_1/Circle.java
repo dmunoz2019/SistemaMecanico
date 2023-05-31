@@ -29,10 +29,68 @@ public class Circle extends Body {
         }
 
     @Override
-    protected Vector2D calculateAcceleration() {
-        Vector2D gravity = new Vector2D(0, -World.g); // Gravitational acceleration (assuming downward direction)
-        return gravity;
+    public  double calculateDragCoefficient() {
+        double area = Math.PI * radius * radius; // Calculate the area of the circle
+        double airDensity = World.getInstance().getAirDensity(); // Get the air density from the World
+        double airViscosity = World.getInstance().getAirViscosity(); // Get the air viscosity from the World
+        double velocityMagnitude = velocity.getMagnitude(); // Magnitude of velocity
+
+        // Calculate the Reynolds number
+        double characteristicLength = radius * 2; // Characteristic length (diameter)
+        double reynoldsNumber = (airDensity * velocityMagnitude * characteristicLength) / airViscosity;
+
+        // Calculate the drag coefficient based on Reynolds number
+        double dragCoefficient;
+        if (reynoldsNumber < 0.1)
+            dragCoefficient = 0.0; // laminar flow
+        else if (reynoldsNumber >= 0.1 && reynoldsNumber <= 100.0)
+            dragCoefficient = 0.5; // transition flow
+        else
+            dragCoefficient = 0.8; // turbulent flow
+        return dragCoefficient;
+    }
+
+    @Override
+    public void calculateAirResistance() {
+        double airDensity = World.getInstance().getAirDensity();
+        double velocityMagnitude = velocity.getMagnitude();
+        double area = Math.PI * Math.pow(radius, 2);
+        double dragCoefficient = calculateDragCoefficient();
+
+        // Calculate the air resistance force
+        double airResistanceMagnitude = 0.5 * airDensity * Math.pow(velocityMagnitude, 2) * area * dragCoefficient;
+
+        // Calculate the unit vector of the velocity
+        Vector2D velocityUnitVector = velocity.divide(velocityMagnitude);
+
+        // Calculate the air resistance force vector
+        Vector2D airResistance = velocityUnitVector.multiply(-airResistanceMagnitude);
+
+        // Add the air resistance force to the total force
+        addForce(airResistance);
+    }
+    @Override
+    public  void calculateGravityForce(){
+        // Apply gravity
+        Vector2D gravity = new Vector2D(0, -World.g * mass);
+        addForce(gravity);
     }
 
 
+    @Override
+    protected void calcForces() {
+        // Calculamos las fuerza que se aplican a nuestro circulo
+
+        calculateGravityForce();
+        // Apply air resistance
+        calculateAirResistance();
+    }
+
+    // Rest of the class code
 }
+
+
+
+
+
+
